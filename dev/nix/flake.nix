@@ -179,8 +179,8 @@
             inherit system;
             overlays = [
               (self: super: {
-                go = super.go_1_20;
-                buildGoModule = super.buildGo120Module;
+                go = super.go_1_21;
+                buildGoModule = super.buildGo121Module;
               })
             ];
           };
@@ -190,7 +190,7 @@
               pname = package.name;
               inherit (package) version;
               inherit src;
-              vendorSha256 = "sha256-Ytl+++KUrFveoKRoSccwjCgozw4tFhjHxk8yDPQFRqo=";
+              vendorHash = "sha256-gVRt7VjsMENXFNdYDgJxSH78wkIsnRV5u7acM1AW/k0=";
               doCheck = false;
             };
 

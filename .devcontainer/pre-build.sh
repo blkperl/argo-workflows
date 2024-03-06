@@ -27,3 +27,9 @@ CI=1 kit pre-up
 
 # Patch CoreDNS to have host.docker.internal inside the cluster available
 kubectl get cm coredns -n kube-system -o yaml | sed "s/  NodeHosts: |/  NodeHosts: |\n    `grep host.docker.internal /etc/hosts`/" | kubectl apply -f -
+
+# Install nix
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+
+# https://github.com/NixOS/nix/issues/6680
+sudo apt install -y acl && sudo setfacl -k /tmp
