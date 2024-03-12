@@ -16,9 +16,8 @@ func NewSharedIndexInformer() *SharedIndexInformer {
 	return &SharedIndexInformer{Indexer: NewIndexer()}
 }
 
-func (s *SharedIndexInformer) AddEventHandler(cache.ResourceEventHandler) {}
-func (s *SharedIndexInformer) AddEventHandlerWithResyncPeriod(cache.ResourceEventHandler, time.Duration) {
-}
+func (s *SharedIndexInformer) AddEventHandler(cache.ResourceEventHandler) (cache.ResourceEventHandlerRegistration, error) { return nil , nil}
+func (s *SharedIndexInformer) AddEventHandlerWithResyncPeriod(cache.ResourceEventHandler, time.Duration) (cache.ResourceEventHandlerRegistration, error) { return nil, nil}
 func (s *SharedIndexInformer) GetStore() cache.Store                                      { return s.Indexer }
 func (s *SharedIndexInformer) GetController() cache.Controller                            { panic("implement me") }
 func (s *SharedIndexInformer) Run(<-chan struct{})                                        {}
