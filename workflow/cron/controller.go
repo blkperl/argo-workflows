@@ -239,7 +239,6 @@ func (cc *Controller) addCronWorkflowInformerHandler() {
 	if err != nil {
 		log.WithError(err).Error("Unable to addCronWorkflowInformerHandler")
 	}
-	return
 }
 
 func isCompleted(wf v1.Object) bool {
