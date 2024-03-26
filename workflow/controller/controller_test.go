@@ -356,7 +356,7 @@ func newController(options ...interface{}) (context.CancelFunc, *WorkflowControl
 func newControllerWithDefaults() (context.CancelFunc, *WorkflowController) {
 	cancel, controller := newController(func(controller *WorkflowController) {
 		controller.Config.WorkflowDefaults = &wfv1.Workflow{
-			Spec: wfv1.WorkflowSpec{HostNetwork: pointer.BoolPtr(true)},
+			Spec: wfv1.WorkflowSpec{HostNetwork: pointer.Bool(true)},
 		}
 	})
 	return cancel, controller
@@ -374,13 +374,13 @@ func newControllerWithComplexDefaults() (context.CancelFunc, *WorkflowController
 				},
 			},
 			Spec: wfv1.WorkflowSpec{
-				HostNetwork:        pointer.BoolPtr(true),
+				HostNetwork:        pointer.Bool(true),
 				Entrypoint:         "good_entrypoint",
 				ServiceAccountName: "my_service_account",
 				TTLStrategy: &wfv1.TTLStrategy{
-					SecondsAfterCompletion: pointer.Int32Ptr(10),
-					SecondsAfterSuccess:    pointer.Int32Ptr(10),
-					SecondsAfterFailure:    pointer.Int32Ptr(10),
+					SecondsAfterCompletion: pointer.Int32(10),
+					SecondsAfterSuccess:    pointer.Int32(10),
+					SecondsAfterFailure:    pointer.Int32(10),
 				},
 			},
 		}

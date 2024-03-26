@@ -205,7 +205,7 @@ func (cc *Controller) processNextCronItem(ctx context.Context) bool {
 }
 
 func (cc *Controller) addCronWorkflowInformerHandler() {
-	cc.cronWfInformer.Informer().AddEventHandler(
+	_, err := cc.cronWfInformer.Informer().AddEventHandler(
 		cache.FilteringResourceEventHandler{
 			FilterFunc: func(obj interface{}) bool {
 				un, ok := obj.(*unstructured.Unstructured)
@@ -236,6 +236,10 @@ func (cc *Controller) addCronWorkflowInformerHandler() {
 				},
 			},
 		})
+	if err != nil {
+		log.WithError(err).Error("Unable to addCronWorkflowInformerHandler")
+	}
+	return
 }
 
 func isCompleted(wf v1.Object) bool {
