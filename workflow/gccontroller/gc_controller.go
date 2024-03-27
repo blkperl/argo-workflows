@@ -70,7 +70,7 @@ func NewController(wfClientset wfclientset.Interface, wfInformer cache.SharedInd
 		},
 	})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	_, err = wfInformer.AddEventHandler(cache.FilteringResourceEventHandler{
@@ -88,7 +88,7 @@ func NewController(wfClientset wfclientset.Interface, wfInformer cache.SharedInd
 		},
 	})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	return controller
 }

@@ -308,13 +308,21 @@ func (wfc *WorkflowController) Run(ctx context.Context, wfWorkers, workflowTTLWo
 		log.Fatal(err)
 	}
 
-	if err := wfc.addWorkflowInformerHandlers(ctx); err != nil {
+	err = wfc.addWorkflowInformerHandlers(ctx)
+	if err != nil {
 		log.Fatal(err)
 	}
-	wfc.podInformer, _ = wfc.newPodInformer(ctx)
+
+	wfc.podInformer, err = wfc.newPodInformer(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
 	wfc.updateEstimatorFactory()
 
-	wfc.configMapInformer, _ = wfc.newConfigMapInformer()
+	wfc.configMapInformer, err = wfc.newConfigMapInformer()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create Synchronization Manager
 	wfc.createSynchronizationManager(ctx)

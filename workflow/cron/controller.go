@@ -101,7 +101,10 @@ func (cc *Controller) Run(ctx context.Context) {
 	cc.cronWfInformer = dynamicinformer.NewFilteredDynamicSharedInformerFactory(cc.dynamicInterface, cronWorkflowResyncPeriod, cc.managedNamespace, func(options *v1.ListOptions) {
 		cronWfInformerListOptionsFunc(options, cc.instanceId)
 	}).ForResource(schema.GroupVersionResource{Group: workflow.Group, Version: workflow.Version, Resource: workflow.CronWorkflowPlural})
-	cc.addCronWorkflowInformerHandler()
+	err := cc.addCronWorkflowInformerHandler()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	wfInformer := util.NewWorkflowInformer(cc.dynamicInterface, cc.managedNamespace, cronWorkflowResyncPeriod,
 		func(options *v1.ListOptions) { wfInformerListOptionsFunc(options, cc.instanceId) },
@@ -204,7 +207,7 @@ func (cc *Controller) processNextCronItem(ctx context.Context) bool {
 	return true
 }
 
-func (cc *Controller) addCronWorkflowInformerHandler() {
+func (cc *Controller) addCronWorkflowInformerHandler() error {
 	_, err := cc.cronWfInformer.Informer().AddEventHandler(
 		cache.FilteringResourceEventHandler{
 			FilterFunc: func(obj interface{}) bool {
@@ -237,8 +240,9 @@ func (cc *Controller) addCronWorkflowInformerHandler() {
 			},
 		})
 	if err != nil {
-		log.WithError(err).Error("Unable to addCronWorkflowInformerHandler")
+		return err
 	}
+	return nil
 }
 
 func isCompleted(wf v1.Object) bool {
